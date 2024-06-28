@@ -349,12 +349,12 @@ Los **operadores lógicos** se utilizan para combinar o invertir valores boolean
 // Operadores lógicos
 
 console.log( 5<3 && 3>2 ); // Salida: false (false && true = false)
-console.log(5=='5'&& 3<2); // Salida: false (true && true = false)
+console.log(5=='5'&& 3<2); // Salida: false (true && false = false)
 console.log(5<3 && 5==='5'); // Salida: false (false && false = false)
 console.log(5>3 && 3>2); // Salida: true (true && true = true)
 
 console.log(5<3 || 3>2); // Salida: true (false || true = true)
-console.log(5=='5' || 3<2); // Salida: true (true || true = true)
+console.log(5=='5' || 3<2); // Salida: true (true || false = true)
 console.log(5>3 || 3>2); // Salida: true (true || true = true)
 console.log(5<3 || 5==='5'); // Salida: false (false || false = false)
 
@@ -729,6 +729,439 @@ Vamos a poner en práctica lo que has aprendido en este capítulo con las siguie
 2. Crea un blucle `for` que imprima solo los números pares del 1 al 10 en la consola.
 
 3. Crea un bucle `for` que imprima "bizz" si el número es divisible por 3, "buzz" si el número es divisible por 5 y "bizzbuzz" si el número es divisible por 3 y 5. De lo contrario, imprime el número.
+
+
+## Estructura de datos: Arrays y Objetos
+
+En esta sección, aprenderás sobre dos tipos de datos compuestos en JavaScript que te permiten almacenar múltiples valores en una sola variable: los **arrays** y los **objetos**.
+
+### Arrays (Arreglos)
+
+Los **arrays** (también conocidos como arreglos o listas) son estructuras de datos que te permiten almacenar múltiples valores en una sola variable. Los valores en un array se almacenan en posiciones numeradas llamadas **índices**.
+
+![1717741589652](image/Fundamentos-de-JavaScript-Creativo/1717741589652.png)
+
+#### Creación de un array
+
+Puedes crear un array en JavaScript utilizando corchetes `[]` y separando los valores con comas `,`.
+
+```javascript
+
+// Creación de un array
+
+let numeros = [1, 2, 3, 4, 5];
+
+let colores = ['rojo', 'verde', 'azul'];
+
+```
+
+#### Acceso a elementos de un array
+
+Puedes acceder a los elementos de un array utilizando su índice. Los índices en un array comienzan en `0` y van hasta `n-1`, donde `n` es el número total de elementos en el array.
+
+```javascript
+
+// Acceso a elementos de un array
+
+let numeros = [1, 2, 3, 4, 5];
+
+console.log(numeros[0]); // Salida: 1
+
+console.log(numeros[2]); // Salida: 3
+
+```
+
+#### Modificación de elementos de un array
+
+Puedes modificar los elementos de un array asignando un nuevo valor a un índice específico.
+
+```javascript
+
+// Modificación de elementos de un array
+
+let colores = ['rojo', 'verde', 'azul'];
+
+colores[1] = 'amarillo';
+
+console.log(colores); // Salida: ['rojo', 'amarillo', 'azul']
+
+```
+
+#### Propiedad `length` de un array
+
+La propiedad `length` de un array te permite obtener el número total de elementos en el array.
+
+```javascript
+
+// Propiedad length de un array
+
+let numeros = [1, 2, 3, 4, 5];
+
+console.log(numeros.length); // Salida: 5
+
+```
+
+Esta propiedad es muy útil para recorrer un array utilizando un bucle `for`.
+
+##### ejemplo:
+
+```javascript
+
+// Recorrido de un array con un bucle for
+
+let numeros = [1, 2, 3, 4, 5];
+
+for (let i = 0; i < numeros.length; i++) {
+    console.log(numeros[i]);
+}
+
+```
+
+Lo que hace este bucle es recorrer el array `numeros` desde el índice `0` hasta el índice `n-1`, donde `n` es el número total de elementos en el array. En cada iteración del bucle, se imprime el elemento del array en la posición `i`.
+
+**Nota:** Existen muchas formas de recorrer un array en JavaScript, personalmente recomiendo el uso de métodos iteradores como `forEach`, `map`, `filter`, `reduce`, entre otros, que veremos más adelante.
+
+
+#### Métodos de un array
+
+Los arrays en JavaScript tienen una serie de métodos incorporados que te permiten realizar operaciones comunes con los elementos del array, como agregar, eliminar, buscar y ordenar elementos.
+
+##### Añadir un elemento al final de un array: `push()`
+
+El método `push()` se utiliza para agregar un elemento al final de un array.
+
+```javascript
+
+// Método push()
+
+let numeros = [1, 2, 3, 4, 5];
+
+numeros.push(6);
+
+console.log(numeros); // Salida: [1, 2, 3, 4, 5, 6]
+
+```
+
+##### Eliminar el último elemento de un array: `pop()`
+
+El método `pop()` se utiliza para eliminar el último elemento de un array.
+
+```javascript
+
+// Método pop()
+
+let numeros = [1, 2, 3, 4, 5];
+
+numeros.pop();
+
+console.log(numeros); // Salida: [1, 2, 3, 4]
+
+```
+
+##### Añadir un elemento al principio de un array: `unshift()`
+
+El método `unshift()` se utiliza para agregar un elemento al principio de un array.
+
+```javascript
+
+// Método unshift()
+
+let numeros = [1, 2, 3, 4, 5];
+
+numeros.unshift(0);
+
+console.log(numeros); // Salida: [0, 1, 2, 3, 4, 5]
+
+```
+
+##### Eliminar el primer elemento de un array: `shift()`
+
+El método `shift()` se utiliza para eliminar el primer elemento de un array.
+
+```javascript
+
+// Método shift()
+
+let numeros = [1, 2, 3, 4, 5];
+
+numeros.shift();
+
+console.log(numeros); // Salida: [2, 3, 4, 5]
+
+```
+
+##### Buscar un elemento en un array: `indexOf()`
+
+El método `indexOf()` se utiliza para buscar la primera ocurrencia de un elemento en un array y devolver su índice.
+
+```javascript
+
+// Método indexOf()
+
+let colores = ['rojo', 'verde', 'azul'];
+
+console.log(colores.indexOf('verde')); // Salida: 1
+
+```
+Cabe destacar que si el elemento no se encuentra en el array, el método `indexOf()` devolverá `-1`.
+
+##### Eliminar un elemento en un array: `splice()`
+
+El método `splice()` se utiliza para eliminar elementos de un array en una posición específica.
+
+##### Sintaxis
+
+```javascript
+
+array.splice(inicio, cantidad);
+
+```
+
+- Inicio: Índice de la posición donde se eliminarán los elementos.
+- Cantidad: Número de elementos a eliminar.
+
+```javascript
+
+// Método splice()
+
+let numeros = [1, 2, 3, 4, 5];
+
+numeros.splice(2, 1);
+
+console.log(numeros); // Salida: [1, 2, 4, 5]
+
+```
+
+##### Reemplazar un elemento por otro en un array: `splice()`
+
+El método `splice()` también se puede utilizar para reemplazar un elemento por otro en un array.
+
+##### Sintaxis
+
+```javascript
+
+array.splice(inicio, cantidad, elemento1, elemento2, ...);
+
+```
+
+- Inicio: Índice de la posición donde se reemplazarán los elementos.
+- Cantidad: Número de elementos a reemplazar.
+- Elemento1, Elemento2, ...: Elementos que se agregarán en lugar de los elementos eliminados.
+
+```javascript
+
+// Método splice()
+
+let colores = ['rojo', 'verde', 'azul'];
+
+colores.splice(1, 1, 'amarillo');
+
+console.log(colores); // Salida: ['rojo', 'amarillo', 'azul']
+
+```
+
+### Objetos (Objects)
+
+Los objetos son estructuras de datos que te permiten almacenar múltiples valores en una sola variable. A diferencia de los arrays, los objetos almacenan valores en pares clave-valor llamados **propiedades**. Cada propiedad de un objeto tiene un nombre único llamado **clave** y un valor asociado. Por otro lado, los objetos pueden almacenar funciones, que se conocen como **métodos**.
+
+![1717772298120](image/Fundamentos-de-JavaScript-Creativo/1717772298120.png)
+
+En la imagen anterior podemos ver como se estructura un objeto en JavaScript. Un objeto se define utilizando llaves `{}` y las propiedades se definen utilizando la sintaxis `clave: valor`. Las propiedades de un objeto se separan por comas `,`.
+
+También traemos un ejemplo de la vida real, el producto de un e-commerce, donde se definen las propiedades de un producto como el nombre, el precio, el stock, entre otras cosas.
+
+#### Creación de un objeto
+
+Puedes crear un objeto en JavaScript utilizando llaves `{}` y definiendo las propiedades del objeto utilizando la sintaxis `clave: valor`.
+
+```javascript
+
+// Creación de un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true
+};
+
+```
+
+#### Acceso a propiedades de un objeto
+
+Puedes acceder a las propiedades de un objeto utilizando la sintaxis `objeto.clave`.
+
+```javascript
+
+// Acceso a propiedades de un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true
+};
+
+console.log(producto.nombre); // Salida: 'Camiseta'
+
+console.log(producto.precio); // Salida: 19.99
+
+```
+
+#### Modificación de propiedades de un objeto
+
+Puedes modificar las propiedades de un objeto asignando un nuevo valor a una clave específica.
+
+```javascript
+
+// Modificación de propiedades de un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true
+};
+
+producto.precio = 24.99;
+
+console.log(producto.precio); // Salida: 24.99
+
+```
+
+#### Añadir propiedades a un objeto
+
+Puedes añadir nuevas propiedades a un objeto asignando un valor a una clave que no existe.
+
+```javascript
+
+// Añadir propiedades a un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true
+};
+
+producto.descripcion = 'Camiseta de algodón';
+
+console.log(producto.descripcion); // Salida: 'Camiseta de algodón'
+
+```
+
+#### Eliminar propiedades de un objeto
+
+Puedes eliminar propiedades de un objeto utilizando el operador `delete`.
+
+```javascript
+
+// Eliminar propiedades de un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true
+};
+
+delete producto.stock;
+
+console.log(producto); // Salida: { nombre: 'Camiseta', precio: 19.99, disponible: true }
+
+```
+
+#### Métodos de un objeto
+
+Los objetos en JavaScript pueden contener funciones, que se conocen como **métodos**. Los métodos de un objeto se definen como propiedades que contienen funciones.
+
+```javascript
+
+// Métodos de un objeto
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true,
+    mostrarPrecio: function() {
+        console.log(`El precio de la ${this.nombre} es ${this.precio}`);
+    }
+};
+
+producto.mostrarPrecio(); // Salida: El precio de la Camiseta es 19.99
+
+```
+
+En este ejemplo, el método `mostrarPrecio` del objeto `producto` imprime el precio de la camiseta en la consola utilizando las propiedades `nombre` y `precio` del objeto.
+
+#### ¿Qué es `this` en JavaScript?
+
+La palabra clave `this` en JavaScript se refiere al objeto actual en el que se está ejecutando el código. En el contexto de un método de un objeto, `this` se refiere al objeto en sí mismo.
+
+### Actividades
+
+Vamos a poner en práctica lo que has aprendido en este capítulo con las siguientes actividades desde un enfoque creativo:
+
+1. Completa el array `colores` con los colores rojo, verde y azul.
+2. Añade el color amarillo al final del array.
+3. Elimina el color verde del array.
+4. Crea un objeto `producto` con las propiedades nombre, precio, stock y disponible.
+5. Añade la propiedad descripción al objeto producto con el valor "Camiseta de algodón".
+6. Muestra la descripción del producto en la consola.
+7. Crea un método `mostrarStock` en el objeto producto que imprima el stock del producto en la consola.
+8. Muestra el stock del producto en la consola.
+
+
+#### Solución
+
+```javascript
+
+// Actividades
+
+// 1. Completa el array colores con los colores rojo, verde y azul.
+
+let colores = ['rojo', 'verde', 'azul'];
+
+// 2. Añade el color amarillo al final del array.
+
+colores.push('amarillo');
+
+// 3. Elimina el color verde del array.
+
+colores.splice(1, 1);
+
+// 4. Completa el objeto producto con las propiedades nombre, precio, stock y disponible.
+
+let producto = {
+    nombre: 'Camiseta',
+    precio: 19.99,
+    stock: 100,
+    disponible: true,
+    imagen: 'https://images.pexels.com/photos/1232459/pexels-photo-1232459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+};
+
+// 5. Añade la propiedad descripción al objeto producto con el valor "Camiseta de algodón".
+
+producto.descripcion = 'Camiseta de algodón';
+
+// 6. Muestra la descripción del producto en la consola.
+
+console.log(producto.descripcion);
+
+// 7. Crea un método mostrarStock en el objeto producto que imprima el stock del producto en la consola.
+
+producto.mostrarStock = function() {
+    console.log(`El stock de la ${this.nombre} es ${this.stock}`);
+};
+
+// 8. Muestra el stock del producto en la consola.
+
+producto.mostrarStock();
+
+```
+
+
 
 
 
