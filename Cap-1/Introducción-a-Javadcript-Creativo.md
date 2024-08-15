@@ -253,3 +253,4 @@ No te preocupes si no entendiste el 99% del código del ejemplo práctico. En lo
 ## Recursos adicionales
 
 - [Código de la clase](https://stackblitz.com/edit/stackblitz-starters-fpdg1e?file=script.js)
+- [Repositorio de material y ejemplos](https://github.com/joshuacba08/Programacion-Creativa-JS)
