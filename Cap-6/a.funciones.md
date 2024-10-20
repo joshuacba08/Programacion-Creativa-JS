@@ -1,5 +1,7 @@
 # Funciones en JavaScript
 
+![1729386360221](image/funciones/1729386360221.png)
+
 En los capítulos anteriores hemos visto cómo crear instrucciones para dibujar en el canvas de HTML5. Hemos visto cómo dibujar líneas, círculos, rectángulos, etc. Además, habiendo aprendido a crear formas, tuvimos una actividad en la que dibujamos una casa. Esta actividad requirió de muchas instrucciones para dibujar cada parte de la casa, posicionando cada pieza en su lugar.
 
 ¿Qué pasa si queremos dibujar otra casa? ¿Tendremos que escribir todas las instrucciones de nuevo? ¿Y si queremos dibujar 10 casas? ¿O 100? ¿O 1000? ¿Tendremos que escribir todas las instrucciones cada vez?
