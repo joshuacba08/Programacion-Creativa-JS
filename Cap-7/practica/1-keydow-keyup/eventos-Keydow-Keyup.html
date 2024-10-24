@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos del teclado</title>
+  </head>
+  <body>
+    <script>
+      document.body.addEventListener("keydown", (event) => {
+        console.log("Tecla presionada:", event.key);
+      });
+
+      document.body.addEventListener("keyup", (event) => {
+        console.log("Tecla liberada:", event.key);
+      });
+    </script>
+  </body>
+</html>
