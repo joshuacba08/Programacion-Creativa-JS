@@ -191,3 +191,83 @@ graph TD
     style D fill:#90EE90,stroke:#333,stroke-width:2px
     style E fill:#90EE90,stroke:#333,stroke-width:2px
 ```
+
+#### Agregando los métodos `draw` y `updatePosition` al loop principal
+
+Una vez que hemos definido el objeto `ball`, vamos a agregar sus métodos `draw` y `updatePosition` al loop principal del juego. De esta forma, la pelota se dibujará en el canvas y se actualizará su posición en cada frame del juego.
+
+`js/main.js`
+
+```javascript
+let on = true;
+ball.draw();
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGridSystem(); // dibujar la cuadrícula
+  ball.draw(); // dibujar la bola
+  ball.updatePosition(); // actualizar la posición de la bola
+}
+
+// bucle principal
+setInterval(() => {
+  if (on) drawFrame();
+}, 1000 / 60);
+```
+
+En el código anterior, hemos agregado las funciones `ball.draw()` y `ball.updatePosition()` al loop principal del juego. De esta forma, la pelota se dibujará en el canvas y se actualizará su posición en cada frame del juego. Si ejecutamos el juego en este punto, veremos que la pelota se mueve en línea recta por la pantalla.
+
+#### Implementando la lógica de rebote
+
+En esta primera instancia la pelota se mueve en línea recta por la pantalla, pero no rebota en las paredes ni en las paletas de los jugadores. Como aún no hemos implementado las paletas, vamos a escribir la lógica para que la pelota rebote en las paredes del canvas. Posteriormente, cuando implementemos las paletas, vamos a agregar la lógica para que la pelota rebote en las paletas de los jugadores y anote puntos si golpea las paredes laterales.
+
+Para implementar esta lógica trabajemos muy de la mano con la implementación de dos nuevo métodos en el objeto `ball`:
+
+- `checkCollision`: función para verificar si la pelota colisiona con las paredes del canvas
+- `reverseDirection`: función para invertir la dirección de la pelota cuando colisiona con las paredes
+
+`js/ball.js`
+
+```javascript
+const ball = {
+  x: 100,
+  y: 50,
+  dx: 2,
+  dy: 2,
+  radius: 6,
+  color: "#FFFFFF",
+  draw: function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ball.color;
+    ctx.fill();
+    ctx.closePath();
+  },
+  updatePosition: function () {
+    this.x += this.dx;
+    this.y += this.dy;
+    this.checkCollision();
+  },
+  checkCollision: function () {
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.reverseDirection("x");
+    }
+    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+      this.reverseDirection("y");
+    }
+  },
+  reverseDirection: function (axis) {
+    if (axis === "x") {
+      this.dx = -this.dx;
+    } else if (axis === "y") {
+      this.dy = -this.dy;
+    }
+  },
+};
+```
+
+Cómo podemos ver, estamos aplicando el mismo razonamiento que en el capítulo anterior para la detección de colisiones. Si sabemos puntualmente las medidas del canvas, podemos saber cuándo la pelota colisiona con las paredes. En este caso, si la pelota colisiona con las paredes laterales, invertimos la dirección en el eje x y si colisiona con las paredes superior e inferior, invertimos la dirección en el eje y.
+
+En pocas palabras, cada vez que mi pelota cambia de posición se debe verificar si colisiona con las paredes del canvas usando la función `checkCollision`. Si la pelota colisiona con las paredes, se debe invertir la dirección de la pelota en el eje correspondiente usando la función `reverseDirection`.
+
+
