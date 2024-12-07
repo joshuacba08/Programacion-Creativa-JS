@@ -270,4 +270,319 @@ Cómo podemos ver, estamos aplicando el mismo razonamiento que en el capítulo a
 
 En pocas palabras, cada vez que mi pelota cambia de posición se debe verificar si colisiona con las paredes del canvas usando la función `checkCollision`. Si la pelota colisiona con las paredes, se debe invertir la dirección de la pelota en el eje correspondiente usando la función `reverseDirection`.
 
+## Creando las paletas de los jugadores
 
+Ahora que ya hemos implementado la lógica para la pelota, vamos a crear las paletas de los jugadores. Las paletas son rectángulos que se mueven verticalmente por la pantalla y golpean la pelota para evitar que pase al otro lado. Cada jugador controla una paleta y debe moverla hacia arriba y hacia abajo para golpear la pelota.
+
+En este enfoque, vamos a crear un objeto `Paddle` que tenga las siguientes propiedades:
+
+- `x`: posición en el eje x
+- `y`: posición en el eje y
+- `width`: ancho de la paleta
+- `height`: alto de la paleta
+- `color`: color de la paleta
+- `speed`: velocidad de la paleta
+- `draw`: función para dibujar la paleta
+- `updatePosition`: función para actualizar la posición de la paleta
+- `moveUp`: función para mover la paleta hacia arriba
+- `moveDown`: función para mover la paleta hacia abajo
+- `checkCollision`: función para verificar si la paleta colisiona con las paredes del canvas
+
+Para implementar ambas paletas, tenemos que tener en cuenta que la paleta que se ubicará en la parte izquierda será controlada por la "máquina" y la paleta que se ubicará en la parte derecha será controlada por el jugador. Por lo tanto, vamos a crear dos objetos `Paddle` que se moverán en direcciones opuestas.
+Para diferencia las paletas, vamos a agregar una propiedad `side` que nos permitirá identificar si la paleta es del jugador o de la máquina.
+
+`js/paddle.js`
+
+```javascript
+const paddle_player1 = {
+  x: 10,
+  y: canvas.height / 2 - 30,
+  width: 10,
+  height: 60,
+  color: "#fb2e01",
+  speed: 5,
+  side: "left",
+  draw: function () {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  },
+  updatePosition: function () {
+    this.checkCollision();
+  },
+  moveUp: function () {
+    this.y -= this.speed;
+  },
+  moveDown: function () {
+    this.y += this.speed;
+  },
+  checkCollision: function () {
+    if (this.y < 0) {
+      this.y = 0;
+    } else if (this.y + this.height > canvas.height) {
+      this.y = canvas.height - this.height;
+    }
+  },
+};
+
+const paddle_player2 = {
+  x: canvas.width - 20,
+  y: canvas.height / 2 - 30,
+  width: 10,
+  height: 60,
+  color: "#6fcb9f",
+  speed: 5,
+  side: "right",
+  draw: function () {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  },
+  updatePosition: function () {
+    this.checkCollision();
+  },
+  moveUp: function () {
+    this.y -= this.speed;
+  },
+  moveDown: function () {
+    this.y += this.speed;
+  },
+  checkCollision: function () {
+    if (this.y < 0) {
+      this.y = 0;
+    } else if (this.y + this.height > canvas.height) {
+      this.y = canvas.height - this.height;
+    }
+  },
+};
+```
+
+> **Nota:** En este caso, hemos definido dos paletas: `paddle_player1` y `paddle_player2`. Sin embargo, en una planteo más avanzado podríamos aplicar un enfoque más orientado a objetos y crear una clase `Paddle` que nos permita instanciar múltiples paletas con diferentes propiedades y métodos. En este caso, hemos optado por un enfoque más simple para facilitar la comprensión del código ya que el objetivo principal de este proyecto es aprender los conceptos básicos de la programación de videojuegos.
+
+### Dibujando las paletas en el canvas
+
+Una vez que hemos definido los objetos `paddle_player1` y `paddle_player2`, vamos a agregar sus métodos `draw` al loop principal del juego para dibujar las paletas en el canvas.
+
+`js/main.js`
+
+```javascript
+let on = true;
+ball.draw();
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGridSystem(); // dibujar la cuadrícula
+  ball.draw(); // dibujar la bola
+  ball.updatePosition(); // actualizar la posición de la bola
+  paddle_player1.draw(); // dibujar la paleta del jugador 1
+  paddle_player2.draw(); // dibujar la paleta del jugador 2
+}
+
+// bucle principal
+setInterval(() => {
+  if (on) drawFrame();
+}, 1000 / 60);
+```
+
+En el código anterior, hemos agregado las funciones `paddle_player1.draw()` y `paddle_player2.draw()` al loop principal del juego. De esta forma, las paletas se dibujarán en el canvas en cada frame del juego.
+
+### Moviendo las paletas con el mouse
+
+Existen muchas formas de darle control a las paletas, podríamos usar las teclas del teclado, el mouse o incluso el touch de un dispositivo móvil. En este caso, vamos a implementar el movimiento de las paletas usando el mouse. Para ello, vamos a agregar un evento `mousemove` al canvas que nos permitirá detectar la posición del mouse y mover la paleta del jugador en consecuencia.
+
+`js/main.js`
+
+```javascript
+let on = true;
+ball.draw();
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGridSystem(); // dibujar la cuadrícula
+  ball.draw(); // dibujar la bola
+  ball.updatePosition(); // actualizar la posición de la bola
+  paddle_player1.draw(); // dibujar la paleta del jugador 1
+  paddle_player2.draw(); // dibujar la paleta del jugador 2
+}
+
+// eventos
+canvas.addEventListener("mousemove", (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseY = event.clientY - rect.top;
+  paddle_player2.y = mouseY - paddle_player1.height / 2;
+});
+
+// bucle principal
+setInterval(() => {
+  if (on) drawFrame();
+}, 1000 / 60);
+```
+
+Para tener un orden en el código, he colocado un pequeño comentario luego de definir las funciones. En mi experiencia, toda hoja de script puede dividirse de esta forma:
+
+```plaintext
+// Definición de variables
+
+// Definición de funciones
+
+// Eventos
+
+// Ejeciones inmediatas
+```
+
+Como pueden ver, la sección de eventos es la que se encarga de escuchar las acciones del usuario y ejecutar las funciones correspondientes. En este caso, estamos escuchando el evento `mousemove` del canvas y actualizando la posición de la paleta del jugador 2 en función de la posición del mouse.
+
+#### Cómo funciona el evento `mousemove`
+
+El evento `mousemove` se dispara cuando el usuario mueve el mouse sobre un elemento. En este caso, estamos escuchando el evento `mousemove` del canvas y obteniendo la posición del mouse en relación al canvas. Para ello, estamos utilizando la propiedad `clientY` del evento y la función `getBoundingClientRect()` del canvas para obtener la posición del mouse en relación al canvas.
+
+##### `getBoundingClientRect()`
+
+La función `getBoundingClientRect()` devuelve el tamaño de un elemento y su posición relativa al viewport. En este caso, estamos utilizando esta función para obtener la posición del canvas en relación al viewport y calcular la posición del mouse en relación al canvas.
+
+```mermaid
+
+graph TD
+    A[Canvas] --> B[getBoundingClientRect]
+    B --> C[Obtiene la posición del Canvas en relación al Viewport]
+    C --> D[Calcula la posición del mouse en relación al Canvas]
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px
+    style B fill:#FFB6C1,stroke:#333,stroke-width:2px
+    style C fill:#ADD8E6,stroke:#333,stroke-width:2px
+    style D fill:#90EE90,stroke:#333,stroke-width:2px
+```
+
+Es importante que el cálculo de la posición del mouse en relación al canvas sea tomando en cuenta la posición del canvas en relación al viewport (la pantalla). De esta forma, podemos obtener la posición del mouse en relación al canvas y mover la paleta del jugador en consecuencia.
+
+### Detectando colisiones entre la pelota y las paletas
+
+Hasta ahora, hemos implementado la lógica para la pelota y las paletas por separado. Sin embargo, el objetivo del juego es que la pelota rebote en las paletas y anote puntos si golpea las paredes laterales. Para ello, vamos a implementar la lógica para detectar colisiones entre la pelota y las paletas y hacer que la pelota rebote en las paletas si colisiona con ellas.
+
+Actualmente nuestro objeto `ball` se ve de la siguiente forma:
+
+`ball.js`
+
+```javascript
+const ball = {
+  x: 100,
+  y: 50,
+  dx: 2,
+  dy: 2,
+  radius: 6,
+  color: "#FFFFFF",
+  draw: function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ball.color;
+    ctx.fill();
+    ctx.closePath();
+  },
+  updatePosition: function () {
+    this.x += this.dx;
+    this.y += this.dy;
+    this.checkCollision();
+  },
+  checkCollision: function () {
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.reverseDirection("x");
+    }
+    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+      this.reverseDirection("y");
+    }
+  },
+  reverseDirection: function (axis) {
+    if (axis === "x") {
+      this.dx = -this.dx;
+    } else if (axis === "y") {
+      this.dy = -this.dy;
+    }
+  },
+};
+```
+
+Como podemos ver ya tenemos la lógica para detectar colisiones con las paredes del canvas y hacer que la pelota rebote en las paredes. Ahora vamos a agregar la lógica para detectar colisiones con las paletas y hacer que la pelota rebote en las paletas si colisiona con ellas.
+
+Para ello, vamos a agregar un nuevo método `checkCollisionWithPaddle` al objeto `ball` que se encargará de detectar colisiones con las paletas y hacer que la pelota rebote en las paletas si colisiona con ellas.
+
+`ball.js`
+
+```javascript
+const ball = {
+  x: 100,
+  y: 50,
+  dx: 2,
+  dy: 2,
+  radius: 6,
+  color: "#FFFFFF",
+  draw: function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ball.color;
+    ctx.fill();
+    ctx.closePath();
+  },
+  updatePosition: function () {
+    this.x += this.dx;
+    this.y += this.dy;
+    this.checkCollision();
+    this.checkCollisionWithPaddle();
+  },
+  checkCollision: function () {
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.reverseDirection("x");
+    }
+    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+      this.reverseDirection("y");
+    }
+  },
+  checkCollisionWithPaddle: function () {
+    if (
+      this.x + this.radius > paddle_player2.x &&
+      this.y > paddle_player2.y &&
+      this.y < paddle_player2.y + paddle_player2.height
+    ) {
+      this.reverseDirection("x");
+    }
+    if (
+      this.x - this.radius < paddle_player1.x + paddle_player1.width &&
+      this.y > paddle_player1.y &&
+      this.y < paddle_player1.y + paddle_player1.height
+    ) {
+      this.reverseDirection("x");
+    }
+  },
+  reverseDirection: function (axis) {
+    if (axis === "x") {
+      this.dx = -this.dx;
+    } else if (axis === "y") {
+      this.dy = -this.dy;
+    }
+  },
+};
+```
+
+En el código anterior, hemos agregado un nuevo método `checkCollisionWithPaddle` al objeto `ball` que se encarga de detectar colisiones con las paletas y hacer que la pelota rebote en las paletas si colisiona con ellas. Para ello, estamos verificando si la posición de la pelota coincide con la posición de las paletas y si la pelota colisiona con las paletas, invertimos la dirección de la pelota en el eje x.
+
+Vamos a ver esta lógica paso por paso.
+
+#### `checkCollisionWithPaddle`
+
+En la función `checkCollisionWithPaddle` estamos verificando si la posición de la pelota coincide con la posición de las paletas. Para ello, estamos comparando la posición de la pelota con la posición de las paletas y si la pelota colisiona con las paletas, invertimos la dirección de la pelota en el eje x.
+
+```mermaid
+graph TD
+    A[Pelota] --> B[checkCollisionWithPaddle]
+    B --> C[Verifica si la pelota colisiona con las paletas]
+    C --> D[Invierte la dirección de la pelota en el eje x]
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px
+    style B fill:#FFB6C1,stroke:#333,stroke-width:2px
+    style C fill:#ADD8E6,stroke:#333,stroke-width:2px
+    style D fill:#90EE90,stroke:#333,stroke-width:2px
+```
+
+En este caso, estamos verificando el punto más a la derecha de la pelota (`this.x + this.radius`) y si este punto es mayor que la posición de la paleta del jugador 2 (`paddle_player2.x`) y si la posición de la pelota en el eje y (`this.y`) está dentro de la paleta del jugador 2 (`paddle_player2.y` y `paddle_player2.y + paddle_player2.height`), invertimos la dirección de la pelota en el eje x.
+
+De la misma forma, estamos verificando el punto más a la izquierda de la pelota (`this.x - this.radius`) y si este punto es menor que la posición de la paleta del jugador 1 (`paddle_player1.x + paddle_player1.width`) y si la posición de la pelota en el eje y (`this.y`) está dentro de la paleta del jugador 1 (`paddle_player1.y` y `paddle_player1.y + paddle_player1.height`), invertimos la dirección de la pelota en el eje x.
+
+
+![1733538333641](image/b.CreandoUnVideoJuego/1733538333641.png)
