@@ -26,7 +26,6 @@ Espero que disfrutes de este viaje tanto como yo disfruté escribiendo este libr
 2. **Fundamentos de JavaScript Creativo**
     - Variables, tipos de datos y operadores
     - Estructuras de control y bucles
-    - Estructuras de datos: arreglos y objetos
-    - Funciones
-    - Laboratorio práctico: ¡Hagamos funcionar nuestro primer proyecto creativo!
+
+
 

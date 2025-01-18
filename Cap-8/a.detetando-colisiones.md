@@ -50,11 +50,9 @@ if (xCircle - radius <= 0) {
 
 Esta fórmula nos permite detectar si el borde izquierdo del círculo ha superado el borde izquierdo del canvas. Recordemos que la posición del círculo se mide desde el centro del círculo, por lo que debemos restar el radio del círculo a la posición `x` del círculo para obtener la posición de su borde izquierdo.
 
-
 ![1730867072271](image/detetando-colisiones/1730867072271.png)
 
-
-### Actividad 
+### Actividad
 
 Usando esta misma lógica, ¿cómo detectarías la colisión entre el Pac-Man y las paredes superior e inferior del canvas? ¿Qué fórmulas utilizarías para detectar estas colisiones?
 
@@ -102,7 +100,7 @@ function detectCollision(xCircle, yCircle, radius, canvas, direction) {
 }  
 ```
 
-Esta función se encarga de verificar si nuestro personaje, el cual está representado por un círculo, ha chocado con alguna de las paredes del canvas. Si detecta una colisión, entonces podemos ejecutar una acción específica, como reiniciar el juego o mostrar un mensaje de error. Sin embargo en nuestro caso, simplemente evitaremos que el Pac-Man siga avanzando en la dirección de la colisión. Es por eso que también debemos considerar la dirección en la que se está moviendo nuestro personaje, ya que de lo contrario, nuestro personaje no podría moverse en los bordes del canvas. 
+Esta función se encarga de verificar si nuestro personaje, el cual está representado por un círculo, ha chocado con alguna de las paredes del canvas. Si detecta una colisión, entonces podemos ejecutar una acción específica, como reiniciar el juego o mostrar un mensaje de error. Sin embargo en nuestro caso, simplemente evitaremos que el Pac-Man siga avanzando en la dirección de la colisión. Es por eso que también debemos considerar la dirección en la que se está moviendo nuestro personaje, ya que de lo contrario, nuestro personaje no podría moverse en los bordes del canvas.
 
 Es decir, nuestro personaje podrá moverse tocando las paredes del canvas siempre y cuando no sea en la dirección de la colisión. Si nuestro personaje choca con una pared, entonces simplemente evitaremos que siga avanzando en la dirección de la colisión.
 
@@ -245,5 +243,3 @@ setInterval(() => {
 ```
 
 Lo que hemos hecho en este código es añadir la función `detectCollision` en la función `updatePosition` para verificar si nuestro personaje ha chocado con alguna de las paredes del canvas. Si detecta una colisión, entonces evitamos que el personaje siga avanzando en la dirección de la colisión. Es por eso que usamos un `return` para salir de la función `updatePosition` si detectamos una colisión.
-
-

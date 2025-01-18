@@ -20,3 +20,12 @@ function printPersonalDataList(message) {
 }
 
 printPersonalDataList(message);
+
+
+// Expresión
+2 + 3;
+
+// Declaración
+alert('Hola, mundo!');
+
+

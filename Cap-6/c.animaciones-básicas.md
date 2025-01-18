@@ -14,7 +14,7 @@ Cuando requerimos dibujar a nuestro personaje de Pac-Man en el capítulo anterio
 
 Partiremos a partir del código que escribimos en el capitúlo anterior, solo que no usaremos la función `drawRandomPacmans` y en su lugar mantenemos la función `drawPacman` que dibuja al personaje.
 
-Además, ya que tendremos que dibujar contantemente frames en el canvas, refactorizaremos el código que dibuja el Grid System en una función llamada `drawGridSystem` para que se ejecute en cada fotograma.
+Además, ya que tendremos que dibujar constantemente frames en el canvas, refactorizaremos el código que dibuja el Grid System en una función llamada `drawGridSystem` para que se ejecute en cada fotograma.
 
 Modifica el código del archivo `drawing.js` de la siguiente manera:
 
@@ -192,14 +192,10 @@ setInterval(drawFrame, 1000 / 60);
 - `ctx.fill()`: Finalmente, rellena el área con el color amarillo, completando el dibujo de Pacman.
 - Función `updateMouth()`: Esta función controla cómo cambia el ángulo de la boca (y por lo tanto la apertura y cierre de la boca) en cada frame de la animación.
 - `mouthAngle += mouthSpeed`: En cada llamada a updateMouth(), el valor de mouthAngle aumenta en mouthSpeed. Como mouthSpeed tiene un valor positivo, el ángulo se incrementa en cada frame, lo que abre la boca gradualmente.
-
 - Condición `if (mouthAngle > 0.8 || mouthAngle < 0)`: Esta condición asegura que la boca de Pacman no se abra demasiado o no se cierre por completo y permanece en un rango adecuado: - Si mouthAngle supera 0.8: Esto significa que la boca ha alcanzado un ángulo amplio de apertura, y es el momento de invertir la dirección del movimiento (es decir, empezar a cerrarla). Para lograrlo, el valor de mouthSpeed se multiplica por -1, lo que hace que el ángulo empiece a disminuir en el siguiente frame. - Si mouthAngle es menor que 0: Esto significa que la boca está completamente cerrada. Nuevamente, se invierte el valor de mouthSpeed para empezar a abrir la boca.
   Este ciclo de inversión del mouthSpeed es lo que crea el efecto de apertura y cierre continuo de la boca de Pacman.
-
 - Función `updatePosition()`: Esta función simplemente incrementa la posición horizontal (x) de Pacman, lo que hace que Pacman se desplace hacia la derecha en el lienzo mientras abre y cierra la boca.
-
 - Función `drawFrame()`: Es la función que se ejecuta periódicamente para actualizar el lienzo con el nuevo estado de Pacman.
-
 - `ctx.clearRect(0, 0, canvas.width, canvas.height)`: Limpia el lienzo antes de cada frame para evitar que se dibuje sobre el dibujo anterior.
 - `drawPacman(x, y, radius, mouthAngle, ctx)`: Dibuja a Pacman con el ángulo de la boca actualizado.
 - `updatePosition()`: Actualiza la posición de Pacman. -`updateMouth()`: Actualiza el ángulo de la boca, lo que provoca que se abra o se cierre dependiendo del valor actual de mouthAngle.

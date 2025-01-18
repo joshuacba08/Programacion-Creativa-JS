@@ -121,7 +121,7 @@ function detectCollision(xCircle, yCircle, radius, canvas, direction) {
 
 function drawFrame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawGridSystem(); // Dibuja el fondo si tienes un sistema de cuadrícula
+  drawGridSystem(); 
   drawPacman(x, y, radius, mouthAngle, ctx);
   updatePosition();
   updateMouth();
